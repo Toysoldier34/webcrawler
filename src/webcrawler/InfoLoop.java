@@ -24,3 +24,4 @@ public class InfoLoop extends Thread {
 	        }//end run
 	    }//end StatLoop
 }//end class
+//Michael Testing
