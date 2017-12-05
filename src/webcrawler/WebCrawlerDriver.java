@@ -27,6 +27,7 @@ public class WebCrawlerDriver {
 	private static Scanner console = new Scanner(System.in);
 	private static boolean loopNotRunning = true;
 	private static InfoLoop infoLoop = new InfoLoop();
+	private static final int NUM_MENU = 9;
 	
 
 	/**
@@ -34,40 +35,42 @@ public class WebCrawlerDriver {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		boolean killProgram = false;
 		System.out.println("Web Crawler");
-		printMenu();
-		
+		while (!killProgram) {
+			printMenu();
+			//gets user choice then carries out the action returning here
+			killProgram = menuChoice(getInt("Enter number for desired action"));
+		}
+		System.exit(0);
 	}//end main
 	
 	
 	//triggers action based on menu choice
-	private static void menuChoice(int choice) {
+	private static boolean menuChoice(int choice) {
         switch (choice) {  //cases match corresponding menu items
+        	case 0:  return true;
             case 1:  try {seedUrl(getString("Enter URL to fetch"));
 					 } catch (InterruptedException e) {e.printStackTrace();}
-            		 printMenu();
-            		 break;
+            		 return false;
             case 2:  addParser(); 
-            		 printMenu(); 
-            		 break;
-            case 3:  addFetcher(); 
-            		 printMenu();
-            		 break;
+            		 return false; 
+			case 3:  addFetcher(); 
+				 	 return false;
             case 4:  addKeywords(getString("Enter Keyword to search")); 
-            		 printMenu();
-            		 break;
+            		 return false;
             case 5:  printStats(); 
-            		 printMenu(); 
-            		 break;
+            		 return false;
             case 6:  if (loopNotRunning) infoLoopControl(true); 
-            		 printMenu();
-            		 break;
+            		 return false;
             case 7:  if (!loopNotRunning) infoLoopControl(false); 
-   		 			 printMenu();
-   		 			 break;
+            		 return false;
+            case 8:  removeParser();
+            		 return false;
+            case 9:  removeFetcher();
+            		 return false;
             default: System.out.println("Switch Error");
-            		 printMenu();
-                     break;
+            		 return false;
         }
 	}
 	
@@ -91,11 +94,28 @@ public class WebCrawlerDriver {
 		parserThreads.add(parser);
 		parserThreads.get(parserThreads.size() - 1).start();
 		System.out.println("Parser size: " + parserThreads.size());
+		
 	}//end addParser
 	
+	//removes parser from list then kills thread
+	@SuppressWarnings("null")
 	private static void removeParser() {
-		
-	}
+		if (!(parserThreads.size() ==0)) {
+			Parser parser = null;
+			parserThreads.remove(parser);
+			parser.threadAlive = false;
+		}
+	}//end removeParser
+	
+	//removes fetcher from list then kills thread
+	@SuppressWarnings("null")
+	private static void removeFetcher() {
+		if (!(fetcherThreads.size() == 0)) {
+			Fetcher fetcher = null;
+			fetcherThreads.remove(fetcher);
+			fetcher.threadAlive = false;
+		}
+	}//end removeParser
 	
 	//starts infoLoop thread to print stats every 5 seconds
 	private static void infoLoopControl(boolean loopSwitch) {
@@ -127,14 +147,17 @@ public class WebCrawlerDriver {
 	
 	//prints menu
 	private static void printMenu() {
+		System.out.println("0. End Program");
 		System.out.println("1. Add seed url");
 		System.out.println("2. Add consumer parser");
 		System.out.println("3. Add producer fetcher");
 		System.out.println("4. Add keyword search");
 		System.out.println("5. Print stats");
 		System.out.println("6. Print updated stats every 5 seconds");
-		//gets user choice then carries out the action returning here
-		menuChoice(getInt("Enter number for desired action"));
+		System.out.println("7. Stop displaying stats");
+		System.out.println("8. Kill consumer parser");
+		System.out.println("9. Kill producer fetcher");
+		
 	}//end printMenu
 	
 	/**
@@ -154,7 +177,7 @@ public class WebCrawlerDriver {
 		System.out.println("Consumers: " + parserThreads.size());
 	}//end printStats
 	
-	//prompts user for an int between 1-7 to return
+	//prompts user for an int between 0-NUM_MENU to return
 	private static int getInt(String prompt)
 	{
 		System.out.println(prompt + ": ");
@@ -163,15 +186,15 @@ public class WebCrawlerDriver {
 		int result = 0;
 		while (!valid) {
 			while (!console.hasNextInt()) {
-				System.out.println("Please enter a valid integer between 1 and 7: ");
+				System.out.println("Please enter a valid integer between 0 and "+NUM_MENU+": ");
 				//clear the scanner buffer
 				console.nextLine();
 			}
 			result = console.nextInt();
-			if ((result >= 1) && (result <= 7)) {
+			if ((result >= 0) && (result <= NUM_MENU)) {
 				valid = true;
 			} else {
-				System.out.println("Please enter a valid integer between 1 and 7: ");
+				System.out.println("Please enter a valid integer between 0 and "+NUM_MENU+": ");
 			}
 		}
 		//clear the scanner buffer
