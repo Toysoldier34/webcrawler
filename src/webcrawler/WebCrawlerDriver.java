@@ -26,6 +26,7 @@ public class WebCrawlerDriver {
 	private static ArrayList<Thread> parserThreads = new ArrayList<Thread>();
 	private static Scanner console = new Scanner(System.in);
 	private static boolean loopNotRunning = true;
+	private static InfoLoop infoLoop = new InfoLoop();
 	
 
 	/**
@@ -58,9 +59,12 @@ public class WebCrawlerDriver {
             case 5:  printStats(); 
             		 printMenu(); 
             		 break;
-            case 6:  if (loopNotRunning) startInfoLoop(); 
+            case 6:  if (loopNotRunning) infoLoopControl(true); 
             		 printMenu();
             		 break;
+            case 7:  if (!loopNotRunning) infoLoopControl(false); 
+   		 			 printMenu();
+   		 			 break;
             default: System.out.println("Switch Error");
             		 printMenu();
                      break;
@@ -89,14 +93,22 @@ public class WebCrawlerDriver {
 		System.out.println("Parser size: " + parserThreads.size());
 	}//end addParser
 	
-	//starts infoLoop thread
-	private static void startInfoLoop() {
-		InfoLoop infoLoop = new InfoLoop();
-		infoLoop.start();
-		loopNotRunning = false;
+	private static void removeParser() {
+		
+	}
+	
+	//starts infoLoop thread to print stats every 5 seconds
+	private static void infoLoopControl(boolean loopSwitch) {
+		//send true to start thread, false to stop it
+		if (loopSwitch) {
+			infoLoop.start();
+			loopNotRunning = false;  //prevents multiple threads
+		} else if (!loopSwitch) {
+			infoLoop.stopTimer();
+			loopNotRunning = true;
+		}
 	}//end startInfoLoop
-	
-	
+		
 	/**
 	 * adds given String to keyword list to check for
 	 * @param keyword String to add
