@@ -33,7 +33,8 @@ public class WebCrawlerDriver {
 	 * prints welcome message then calls for menu to print and start program
 	 * @param args
 	 */
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
+		foo();
 		boolean killProgram = false;
 		System.out.println("Web Crawler");
 		while (!killProgram) {
