@@ -27,24 +27,13 @@ public class WebCrawlerDriver {
 	
 	public static final Logger LOGGER = Logger.getLogger(WebCrawlerDriver.class.toString());
 	
-	public static void foo()
-	{
-		try
-		{
-			LOGGER.addHandler(new FileHandler("webcrawler.log"));
-			LOGGER.setUseParentHandlers(false);
-		}
-		catch (Exception e)
-		{
-			System.out.println("Error setting up log file.");
-		}
-	}
+	
 	
 	/**
 	 * prints welcome message then calls for menu to print and start program
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		boolean killProgram = false;
 		System.out.println("Web Crawler");
 		while (!killProgram) {
@@ -92,6 +81,17 @@ public class WebCrawlerDriver {
             		 return false;
         }//end switch
 	}//end menuChoice
+	
+	
+	public static void foo() {
+		try {
+			LOGGER.addHandler(new FileHandler("webcrawler.log"));
+			LOGGER.setUseParentHandlers(false);
+		}
+		catch (Exception e) {
+			System.out.println("Error setting up log file.");
+		}
+	}
 	
 	
 }//end class

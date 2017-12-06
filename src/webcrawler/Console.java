@@ -9,7 +9,7 @@ package webcrawler;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.logging.FileHandler;
@@ -60,26 +60,29 @@ public class Console {
 		System.out.println("Failed downloads: " + Fetcher.getFailedDl());
 		System.out.println("Producers: " + ThreadHandler.fetcherThreads.size());
 		System.out.println("Consumers: " + ThreadHandler.parserThreads.size());
-		System.out.println("Keywords found: " + Parser.getKeywordsFound());
 		printKeywords();
 		System.out.println("*********************");
 	}//end printStat
 	
 	
 	//gets keywordCount HashMap then iterates through keys printing values
-	private static void printKeywords() {
-		System.out.println("-Individual keyword counts-");
+	public static void printKeywords() {
 		HashMap<String, Integer> hmap = Parser.getKeywordsFound();
+		String fullPrint = "";
+		int count = 0;
 		
-		Set<?> set = hmap.entrySet();
-		Iterator<?> iterator = set.iterator();
+		Set<Entry<String, Integer>> set = hmap.entrySet();
+		Iterator<Entry<String, Integer>> iterator = set.iterator();
 		while(iterator.hasNext()) {
-		   Map.Entry mentry = (Map.Entry)iterator.next();
-		   System.out.println("Keyword: "+ mentry.getKey() + " & Value is: " + mentry.getValue());
-		   
-		}
-
-	}
+		   Entry<String, Integer> mentry = iterator.next();
+		   count += mentry.getValue();
+		   fullPrint += ("Keyword: " + mentry.getKey() + " times found: " + mentry.getValue());
+		}//end while
+		
+		System.out.println("Total keywords found: " + count);
+		System.out.println("-Individual keyword counts-");
+		System.out.println(fullPrint);
+	}//end printKeywords
 	
 	
 	/**

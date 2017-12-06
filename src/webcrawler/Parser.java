@@ -22,7 +22,7 @@ public class Parser extends Thread {
 	//field
 	private LinkQueue linkQueue;
 	private PageQueue pageQueue;
-	private static int keywordsFound;
+	private static int keywordsFound = 0;
 	public boolean threadAlive = true;
 	private int id;
 	static HashMap<String, Integer> keywordCounts = new HashMap<>();
