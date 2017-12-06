@@ -6,6 +6,9 @@
 */
 package webcrawler;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+
 /**
  * prompts a menu for user to enter a url and keywords to check
  * by creating producers and consumers as well as printing the results
@@ -22,6 +25,20 @@ public class WebCrawlerDriver {
 	 * 
 	 */
 	
+	public static final Logger LOGGER = Logger.getLogger(WebCrawlerDriver.class.toString());
+	
+	public static void foo()
+	{
+		try
+		{
+			LOGGER.addHandler(new FileHandler("webcrawler.log"));
+			LOGGER.setUseParentHandlers(false);
+		}
+		catch (Exception e)
+		{
+			System.out.println("Error setting up log file.");
+		}
+	}
 	
 	/**
 	 * prints welcome message then calls for menu to print and start program

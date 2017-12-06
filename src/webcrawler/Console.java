@@ -8,6 +8,8 @@ package webcrawler;
 
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
 
 /**
  * handles console IO

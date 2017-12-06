@@ -57,6 +57,7 @@ public class ThreadHandler {
 		fetcherThreads.add(fetcher);
 		//thread added after size check so the index is correct not needing -1
 		fetcherThreads.get(listSize).start();
+		WebCrawlerDriver.LOGGER.warning("Fetcher has been added");
 		System.out.println("addFetcher() Fetcher size: " + fetcherThreads.size());
 	}//end addFetcher
 	
@@ -72,6 +73,7 @@ public class ThreadHandler {
 		parserThreads.add(parser);
 		//thread added after size check so the index is correct not needing -1
 		parserThreads.get(listSize).start();
+		WebCrawlerDriver.LOGGER.warning("Parser has been added");
 		System.out.println("addParser() Parser size: " + parserThreads.size());
 	}//end addParser
 	
