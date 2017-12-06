@@ -7,7 +7,11 @@
 package webcrawler;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
@@ -51,13 +55,31 @@ public class Console {
 		Date date = new Date();
 		System.out.println("-Current Time-");
 		System.out.println(date.toString());
-		System.out.println("Keywords found: " + Parser.getKeywordsFound());
 		System.out.println("Links found: " + ThreadHandler.linkQueue.getLinksFound());
 		System.out.println("Pages found: " + ThreadHandler.pageQueue.getPagesDownloaded());
 		System.out.println("Failed downloads: " + Fetcher.getFailedDl());
 		System.out.println("Producers: " + ThreadHandler.fetcherThreads.size());
 		System.out.println("Consumers: " + ThreadHandler.parserThreads.size());
+		System.out.println("Keywords found: " + Parser.getKeywordsFound());
+		printKeywords();
+		System.out.println("*********************");
 	}//end printStat
+	
+	
+	//gets keywordCount HashMap then iterates through keys printing values
+	private static void printKeywords() {
+		System.out.println("-Individual keyword counts-");
+		HashMap<String, Integer> hmap = Parser.getKeywordsFound();
+		
+		Set<?> set = hmap.entrySet();
+		Iterator<?> iterator = set.iterator();
+		while(iterator.hasNext()) {
+		   Map.Entry mentry = (Map.Entry)iterator.next();
+		   System.out.println("Keyword: "+ mentry.getKey() + " & Value is: " + mentry.getValue());
+		   
+		}
+
+	}
 	
 	
 	/**
