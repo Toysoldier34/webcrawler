@@ -42,6 +42,13 @@ public class WebCrawlerDriver {
 			//gets user choice then carries out the action returning here
 			killProgram = menuChoice(getInt("Enter number for desired action"));
 		}
+		/*
+		 * If all threads need to be finished before forcing program to end
+		 * 
+		 * Can be replaced with a method call that runs through and calls
+		 * for all running threads to stop by looping and calling the 
+		 * removeParse/Fetch a number of times equal to number currently running. 
+		 */
 		System.exit(0);
 	}//end main
 	
