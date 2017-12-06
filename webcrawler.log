@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2017-12-06T08:52:15</date>
+  <millis>1512579135547</millis>
+  <sequence>0</sequence>
+  <logger>class webcrawler.WebCrawlerDriver</logger>
+  <level>WARNING</level>
+  <class>webcrawler.ThreadHandler</class>
+  <method>addFetcher</method>
+  <thread>1</thread>
+  <message>Fetcher has been added</message>
+</record>

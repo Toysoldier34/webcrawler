@@ -45,6 +45,7 @@ public class WebCrawlerDriver {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		foo();
 		boolean killProgram = false;
 		System.out.println("Web Crawler");
 		while (!killProgram) {

@@ -25,7 +25,7 @@ public class Parser extends Thread {
 	private static int keywordsFound;
 	public boolean threadAlive = true;
 	private int id;
-	static HashMap<String, Integer> keywordCounts = new HashMap<>();
+	public static HashMap<String, Integer> keywordCounts = new HashMap<>();
 
 	
 	
