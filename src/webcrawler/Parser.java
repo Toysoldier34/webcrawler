@@ -57,7 +57,7 @@ public class Parser extends Thread {
 			} catch (InterruptedException e) {e.printStackTrace();}
 			
 			//search the page for any keywords
-			ArrayList<String> keywords = WebCrawlerDriver.getKeywords();
+			ArrayList<String> keywords = ThreadHandler.getKeywords();
 			for (int j = 0; j < keywords.size(); j++) {
 				String testString = pageText;
 				String[] parts = testString.split(keywords.get(j));
