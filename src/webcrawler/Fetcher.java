@@ -27,6 +27,7 @@ public class Fetcher extends Thread {
 	private PageQueue pageQueue;
 	private static int failedDl;
 	public boolean threadAlive = true;
+	private int id;
 	
 	
 	/**
@@ -34,9 +35,10 @@ public class Fetcher extends Thread {
 	 * @param linkQueue linkQueue to get link
 	 * @param pageQueue pageQueue to give page text
 	 */
-	public Fetcher(LinkQueue linkQueue, PageQueue pageQueue) {
+	public Fetcher(LinkQueue linkQueue, PageQueue pageQueue, int id) {
 		this.linkQueue = linkQueue;
 		this.pageQueue = pageQueue;
+		this.id = id;
 	}//end constructor
 	
 	
@@ -46,6 +48,7 @@ public class Fetcher extends Thread {
 	 * stored HTML as a String and adds to pageQueue
 	 */
 	public void run() {
+		currentThread().setName("Fetcher #" + id);
 		while (threadAlive) {
 			URL url = null;
 			HttpURLConnection connection = null;

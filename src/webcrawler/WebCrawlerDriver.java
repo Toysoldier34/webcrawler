@@ -82,19 +82,22 @@ public class WebCrawlerDriver {
 	
 	//creates and starts new fetcher thread
 	private static void addFetcher() {
-		Fetcher fetcher = new Fetcher(linkQueue, pageQueue);
+		int listSize = fetcherThreads.size();
+		Fetcher fetcher = new Fetcher(linkQueue, pageQueue, listSize);
 		fetcherThreads.add(fetcher);
-		fetcherThreads.get(fetcherThreads.size() - 1).start();
+		//thread added after size check so the index is correct not needing -1
+		fetcherThreads.get(listSize).start();
 		System.out.println("Fetcher size: " + fetcherThreads.size());
 	}//end addFetcher
 	
 	//creates and starts new parser thread
 	private static void addParser() {
-		Parser parser = new Parser(linkQueue, pageQueue);
+		int listSize = parserThreads.size();
+		Parser parser = new Parser(linkQueue, pageQueue, listSize);
 		parserThreads.add(parser);
-		parserThreads.get(parserThreads.size() - 1).start();
+		//thread added after size check so the index is correct not needing -1
+		parserThreads.get(listSize).start();
 		System.out.println("Parser size: " + parserThreads.size());
-		
 	}//end addParser
 	
 	//removes parser from list then kills thread

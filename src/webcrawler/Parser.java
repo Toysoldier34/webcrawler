@@ -18,15 +18,18 @@ public class Parser extends Thread {
 	private PageQueue pageQueue;
 	private static int keywordsFound;
 	public boolean threadAlive = true;
+	private int id;
+	
 	
 	/**
 	 * constructor for Consumer Parser
 	 * @param linkQueue linkQueue to get link
 	 * @param pageQueue pageQueue to give page text
 	 */
-	public Parser(LinkQueue linkQueue, PageQueue pageQueue) {
+	public Parser(LinkQueue linkQueue, PageQueue pageQueue, int id) {
 		this.linkQueue = linkQueue;
 		this.pageQueue = pageQueue;
+		this.id = id;
 	}//end constructor
 	
 	
@@ -35,6 +38,7 @@ public class Parser extends Thread {
 	 * then checks the page for keywords given by the user
 	 */
 	public void run() {
+		currentThread().setName("Parser #" + id);
 		while (threadAlive) {
 			String pageText = "";
 			try {
