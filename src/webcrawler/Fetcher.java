@@ -11,6 +11,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.text.Document;
+
+import org.jsoup.Jsoup;
 
 /**
  * Producer
@@ -50,16 +56,20 @@ public class Fetcher extends Thread {
 	public void run() {
 		currentThread().setName("Fetcher #" + id);
 		while (threadAlive) {
-			URL url = null;
+			String url = null;
 			HttpURLConnection connection = null;
 			BufferedReader download = null;
 			String pageText = null;
 			String lineText = null;
 			try {
+		
 				//pull url from queue
-				url = new URL(linkQueue.getNextLink());
+				url = linkQueue.getNextLink();
 				
-				//uses url to open http connection
+				Document page = (Document) Jsoup.connect(url).get();
+				pageQueue.addPage((org.jsoup.nodes.Document) page);
+				
+				/*//uses url to open http connection
 				connection = (HttpURLConnection)url.openConnection();
 				//opens buffered reader to download url with http connection
 				download = new BufferedReader(
@@ -72,8 +82,9 @@ public class Fetcher extends Thread {
 				
 				//close connection and send page to queue
 				download.close();
-				pageQueue.addPage(pageText);
+				pageQueue.addPage(pageText);*/
 			} catch (InterruptedException | IOException e) {
+				WebCrawlerDriver.LOGGER.severe(e.toString());
 				failedDl++;  //tracks times try/catch fails
 				e.printStackTrace();
 			}//end try/catch

@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.lang.model.element.Element;
+import javax.lang.model.util.Elements;
+
+import org.jsoup.nodes.Document;
+
 public class Parser extends Thread {
 	//Consumer
 	
@@ -40,30 +45,38 @@ public class Parser extends Thread {
 	public void run() {
 		currentThread().setName("Parser #" + id);
 		while (threadAlive) {
-			String pageText = "";
+			Document pageText;
 			try {
 				//pull page from page queue
 				pageText = pageQueue.getNextPage();
+				org.jsoup.select.Elements links = pageText.select("a[href]");
+				
+				for (org.jsoup.nodes.Element link : links)
+				{
+					String url = link.absUrl("href");
+					linkQueue.addLink(url);
+				}
+				/*pageText.select(links)
 				
 				//search page for all links in anchor href elements
 				Pattern pattern = Pattern.compile("href=\"(http:.*?)\"");
-				Matcher matcher = pattern.matcher(pageText);
+				Matcher matcher = pattern.matcher((CharSequence) pageText);
 				
 			    //add link to link queue
 				while (matcher.find()) {
 				    String link = matcher.group(1);
 					linkQueue.addLink(link);
-				}//end while
+				}//end while*/
 			} catch (InterruptedException e) {e.printStackTrace();}
 			
 			//search the page for any keywords
 			ArrayList<String> keywords = ThreadHandler.getKeywords();
 			for (int j = 0; j < keywords.size(); j++) {
-				String testString = pageText;
-				String[] parts = testString.split(keywords.get(j));
+				//Document testString = pageText;
+				//String[] parts = (testString).split(keywords.get(j));
 
 				//keeps track of keywords found
-				keywordsFound += (parts.length - 1);
+				//keywordsFound += (parts.length - 1);
 			}//end for
 		}//end while
 	}//end run

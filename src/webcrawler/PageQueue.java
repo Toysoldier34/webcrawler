@@ -9,6 +9,8 @@ package webcrawler;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.jsoup.nodes.Document;
+
 /**
  * stores pages downloaded by adding and removing from a queue
  * also tracks total number downloaded
@@ -19,21 +21,21 @@ public class PageQueue {
 	
 	//field
 	private static final int MAX_SIZE = 50000;
-	private static Queue<String> pageList = new LinkedList<String>();
+	private static Queue<org.jsoup.nodes.Document> pageList = new LinkedList<org.jsoup.nodes.Document>();
 	private static int pagesFound;
 	
 	/**
 	 * adds page to pageList queue if not full
 	 * increments count of pages checked
-	 * @param pageText page text to add to queue
+	 * @param page page text to add to queue
 	 * @throws InterruptedException
 	 */
-	public void addPage(String pageText) throws InterruptedException {
+	public void addPage(Document page) throws InterruptedException {
 		synchronized(pageList) {
 			while (pageList.size() == MAX_SIZE) {
 				pageList.wait();
 			}//end while
-			pageList.add(pageText);
+			pageList.add((Document) page);
 			pageList.notify();
 			pagesFound++;
 		}//end synchronized
@@ -44,12 +46,12 @@ public class PageQueue {
 	 * @return String of next page in queue
 	 * @throws InterruptedException
 	 */
-	public String getNextPage() throws InterruptedException {
+	public Document getNextPage() throws InterruptedException {
 		synchronized(pageList) {
 			while (pageList.size() == 0) {
 				pageList.wait();
 			}//end while
-			String page = pageList.remove();
+			Document page = pageList.remove();
 			pageList.notify();
 			return page;
 		}//end synchronized
