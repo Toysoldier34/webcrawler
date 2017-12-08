@@ -66,7 +66,7 @@ public class WebCrawlerDriver {
             		 return false; 
 			case 3:  ThreadHandler.addFetcher(); 
 				 	 return false;
-            case 4:  ThreadHandler.addKeywords(Console.getString("Enter Keyword to search")); 
+            case 4:  Keywords.addKeywords(Console.getString("Enter Keyword to search")); 
             		 return false;
             case 5:  Console.printStats(); 
             		 return false;

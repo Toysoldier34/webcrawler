@@ -67,16 +67,19 @@ public class Console {
 	
 	//gets keywordCount HashMap then iterates through keys printing values
 	public static void printKeywords() {
-		HashMap<String, Integer> hmap = ThreadHandler.getKeywordCounts();
+		HashMap<String, Integer> hmap = Keywords.getKeywordCounts();
 		String fullPrint = "";
 		int count = 0;
+		int pages = 0;
 		
 		Set<Entry<String, Integer>> set = hmap.entrySet();
 		Iterator<Entry<String, Integer>> iterator = set.iterator();
-		while(iterator.hasNext()) {
+		while(iterator.hasNext()) {  //loops through keywords
 		   Entry<String, Integer> mentry = iterator.next();
+		   pages = Keywords.keywordPagesCount.get(mentry.getKey());
 		   count += mentry.getValue();
-		   fullPrint += ("Keyword: " + mentry.getKey() + " times found: " + mentry.getValue());
+		   double average = ((double) count / pages);
+		   fullPrint += (mentry.getKey() + ": " + mentry.getValue() + ", " + average + "average times per page");
 		}//end while
 		
 		System.out.println("Total keywords found: " + count);

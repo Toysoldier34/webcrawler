@@ -73,12 +73,18 @@ public class Parser extends Thread {
 			
 			
 			//search the page for any keywords
-			HashSet<String> keywords = ThreadHandler.getKeywords();
+			HashSet<String> keywords = Keywords.getKeywords();
 			Iterator<String> words = keywords.iterator();
 		    while(words.hasNext()){
 				//Document testString = pageText;
 				org.jsoup.select.Elements keywordcount = pageText.select(words.next());
-				ThreadHandler.incrementKeywordCounts(words.next(), keywordcount.size());
+				Keywords.incrementKeywordCounts(words.next(), keywordcount.size());
+				
+				if (keywordcount.size() != 0) {  
+					//if a keyword is found calls to add to number of pages value is found on
+					Keywords.incrementKeywordPagesCount(words.next(), 1);
+				}
+				
 				
 				//String[] parts = (testString).split(keywords.get(j));
 				//keeps track of keywords found
