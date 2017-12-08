@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2017-12-08T08:47:40</date>
+  <millis>1512751660144</millis>
+  <sequence>0</sequence>
+  <logger>class webcrawler.WebCrawlerDriver</logger>
+  <level>WARNING</level>
+  <class>webcrawler.ThreadHandler</class>
+  <method>addParser</method>
+  <thread>1</thread>
+  <message>Parser has been added</message>
+</record>
+<record>
+  <date>2017-12-08T08:47:41</date>
+  <millis>1512751661391</millis>
+  <sequence>1</sequence>
+  <logger>class webcrawler.WebCrawlerDriver</logger>
+  <level>WARNING</level>
+  <class>webcrawler.ThreadHandler</class>
+  <method>addFetcher</method>
+  <thread>1</thread>
+  <message>Fetcher has been added</message>
+</record>
+<record>
+  <date>2017-12-08T08:47:43</date>
+  <millis>1512751663764</millis>
+  <sequence>2</sequence>
+  <logger>class webcrawler.WebCrawlerDriver</logger>
+  <level>SEVERE</level>
+  <class>webcrawler.Fetcher</class>
+  <method>run</method>
+  <thread>15</thread>
+  <message>org.jsoup.HttpStatusException: HTTP error fetching URL. Status=999, URL=https://www.linkedin.com/in/michaeljameshorn/</message>
+</record>
+<record>
+  <date>2017-12-08T08:47:43</date>
+  <millis>1512751663897</millis>
+  <sequence>3</sequence>
+  <logger>class webcrawler.WebCrawlerDriver</logger>
+  <level>SEVERE</level>
+  <class>webcrawler.Fetcher</class>
+  <method>run</method>
+  <thread>15</thread>
+  <message>org.jsoup.UnsupportedMimeTypeException: Unhandled content type. Must be text/*, application/xml, or application/xhtml+xml. Mimetype=application/pdf, URL=http://mhorn.greenrivertech.net/305/resume/mikeResume.pdf</message>
+</record>
+<record>
+  <date>2017-12-08T08:47:44</date>
+  <millis>1512751664564</millis>
+  <sequence>4</sequence>
+  <logger>class webcrawler.WebCrawlerDriver</logger>
+  <level>SEVERE</level>
+  <class>webcrawler.Fetcher</class>
+  <method>run</method>
+  <thread>15</thread>
+  <message>org.jsoup.HttpStatusException: HTTP error fetching URL. Status=404, URL=http://mhorn.greenrivertech.net/305/contactTableLogins.php</message>
+</record>

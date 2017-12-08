@@ -8,15 +8,11 @@ package webcrawler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.text.Document;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.*;
 
 /**
  * Producer
@@ -57,36 +53,17 @@ public class Fetcher extends Thread {
 		currentThread().setName("Fetcher #" + id);
 		while (threadAlive) {
 			String url = null;
-			HttpURLConnection connection = null;
-			BufferedReader download = null;
-			String pageText = null;
-			String lineText = null;
 			try {
 		
 				//pull url from queue
 				url = linkQueue.getNextLink();
 				
-				Document page = (Document) Jsoup.connect(url).get();
-				pageQueue.addPage((org.jsoup.nodes.Document) page);
+				Document page = Jsoup.connect(url).get();
+				pageQueue.addPage(page);
 				
-				/*//uses url to open http connection
-				connection = (HttpURLConnection)url.openConnection();
-				//opens buffered reader to download url with http connection
-				download = new BufferedReader(
-						new InputStreamReader(connection.getInputStream()));
-			
-				//download page text to string
-				while ((lineText = download.readLine()) != null) {
-					pageText += lineText;
-				}
-				
-				//close connection and send page to queue
-				download.close();
-				pageQueue.addPage(pageText);*/
-			} catch (InterruptedException | IOException e) {
+			} catch (InterruptedException | IOException | RuntimeException e) {
 				WebCrawlerDriver.LOGGER.severe(e.toString());
 				failedDl++;  //tracks times try/catch fails
-				e.printStackTrace();
 			}//end try/catch
 		}//end while
 	}//end run

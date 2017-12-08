@@ -21,7 +21,7 @@ public class PageQueue {
 	
 	//field
 	private static final int MAX_SIZE = 50000;
-	private static Queue<org.jsoup.nodes.Document> pageList = new LinkedList<org.jsoup.nodes.Document>();
+	private static Queue<Document> pageList = new LinkedList<Document>();
 	private static int pagesFound;
 	
 	/**
@@ -35,7 +35,7 @@ public class PageQueue {
 			while (pageList.size() == MAX_SIZE) {
 				pageList.wait();
 			}//end while
-			pageList.add((Document) page);
+			pageList.add(page);
 			pageList.notify();
 			pagesFound++;
 		}//end synchronized

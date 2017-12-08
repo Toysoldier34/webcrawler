@@ -6,17 +6,12 @@
 */
 package webcrawler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.lang.model.element.Element;
-import javax.lang.model.util.Elements;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class Parser extends Thread {
 	//Consumer
@@ -51,45 +46,35 @@ public class Parser extends Thread {
 			try {
 				//pull page from page queue
 				pageText = pageQueue.getNextPage();
-				org.jsoup.select.Elements links = pageText.select("a[href]");
+				Elements links = pageText.select("a[href]");
 				
-				for (org.jsoup.nodes.Element link : links)
+				for (Element link : links)
 				{
 					String url = link.absUrl("href");
 					linkQueue.addLink(url);
 				}
-				/*pageText.select(links)
 				
-				//search page for all links in anchor href elements
-				Pattern pattern = Pattern.compile("href=\"(http:.*?)\"");
-				Matcher matcher = pattern.matcher((CharSequence) pageText);
+				//search the page for any keywords
+				HashSet<String> keywords = Keywords.getKeywords();
+				Iterator<String> words = keywords.iterator();
+			    while(words.hasNext()){
+					//Document testString = pageText;
+					Elements keywordcount = pageText.select(words.next());
+					Keywords.incrementKeywordCounts(words.next(), keywordcount.size());
+					
+					if (keywordcount.size() != 0) {  
+						//if a keyword is found calls to add to number of pages value is found on
+						Keywords.incrementKeywordPagesCount(words.next(), 1);
+					}
+					
+					
+					//String[] parts = (testString).split(keywords.get(j));
+					//keeps track of keywords found
+					//keywordsFound += (parts.length - 1);
+				}//end while iterator
 				
-			    //add link to link queue
-				while (matcher.find()) {
-				    String link = matcher.group(1);
-					linkQueue.addLink(link);
-				}//end while*/
 			} catch (InterruptedException e) {e.printStackTrace();}
 			
-			
-			//search the page for any keywords
-			HashSet<String> keywords = Keywords.getKeywords();
-			Iterator<String> words = keywords.iterator();
-		    while(words.hasNext()){
-				//Document testString = pageText;
-				org.jsoup.select.Elements keywordcount = pageText.select(words.next());
-				Keywords.incrementKeywordCounts(words.next(), keywordcount.size());
-				
-				if (keywordcount.size() != 0) {  
-					//if a keyword is found calls to add to number of pages value is found on
-					Keywords.incrementKeywordPagesCount(words.next(), 1);
-				}
-				
-				
-				//String[] parts = (testString).split(keywords.get(j));
-				//keeps track of keywords found
-				//keywordsFound += (parts.length - 1);
-			}//end while iterator
 		}//end while
 	}//end run
 	
