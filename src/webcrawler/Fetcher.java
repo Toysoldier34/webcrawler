@@ -6,13 +6,9 @@
 */
 package webcrawler;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.*;
 
 /**
  * Producer

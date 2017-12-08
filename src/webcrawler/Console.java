@@ -12,8 +12,6 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
 
 /**
  * handles console IO
@@ -71,6 +69,7 @@ public class Console {
 		String fullPrint = "";
 		int count = 0;
 		int pages = 0;
+		double average = 0;
 		
 		Set<Entry<String, Integer>> set = hmap.entrySet();
 		Iterator<Entry<String, Integer>> iterator = set.iterator();
@@ -78,8 +77,9 @@ public class Console {
 		   Entry<String, Integer> mentry = iterator.next();
 		   pages = Keywords.keywordPagesCount.get(mentry.getKey());
 		   count += mentry.getValue();
-		   double average = ((double) count / pages);
-		   fullPrint += (mentry.getKey() + ": " + mentry.getValue() + ", " + average + "average times per page \n");
+		   if (pages != 0) { average = ((double) count / pages); };
+		   System.out.println(count + "|" + pages +"|" + average);
+		   fullPrint += (mentry.getKey() + ": " + mentry.getValue() + " total, " + average + " times per page average \n");
 		}//end while
 		
 		System.out.println("Total keywords found: " + count);

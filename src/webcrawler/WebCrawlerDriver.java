@@ -19,10 +19,10 @@ public class WebCrawlerDriver {
 	
 	/*
 	 * URLs for testing to copy from
-	 * 
+	 *  
 	 * http://athompson.greenrivertech.net/305/
 	 * http://athompson.greenrivertech.net/305/inclass/
-	 * 
+	  http://athompson.greenrivertech.net/305/week2/briards.html
 	 */
 	
 	public static final Logger LOGGER = Logger.getLogger(WebCrawlerDriver.class.toString());
