@@ -58,7 +58,7 @@ public class WebCrawlerDriver {
 	//triggers action based on menu choice
 	private static boolean menuChoice(int choice) {
         switch (choice) {  //cases match corresponding menu items
-        	case 0:  return true;
+        	case 0:  return true;  //breaks main while loop ending program
             case 1:  try {ThreadHandler.seedUrl(Console.getString("Enter URL to fetch"));
 					 } catch (InterruptedException e) {e.printStackTrace();}
             		 return false;

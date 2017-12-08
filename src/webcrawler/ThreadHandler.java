@@ -7,13 +7,16 @@
 package webcrawler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class ThreadHandler {
 	
 	//field
 	public static LinkQueue linkQueue = new LinkQueue();
 	public static PageQueue pageQueue = new PageQueue();
-	public static ArrayList<String> keywords = new ArrayList<String>();
+	public static HashSet<String> keywords = new HashSet<String>();
+	public static HashMap<String, Integer> keywordCounts = new HashMap<>();
 	public static ArrayList<Thread> fetcherThreads = new ArrayList<Thread>();
 	public static ArrayList<Thread> parserThreads = new ArrayList<Thread>();
 	public static boolean loopNotRunning = true;
@@ -112,6 +115,8 @@ public class ThreadHandler {
 	 */
 	public static void addKeywords(String keyword) {
 		keywords.add(keyword);
+		//takes new keyword and adds to hashmap sending 0 for new word
+		incrementKeywordCounts(keyword, 0);  
 	}//end setKeywords
 	
 	
@@ -119,9 +124,33 @@ public class ThreadHandler {
 	 * returns list of user entered keywords to check for
 	 * @return ArrayList<String> of keywords
 	 */
-	public static ArrayList<String> getKeywords() {
+	public static HashSet<String> getKeywords() {
 		return keywords;
 	}//end getKeywords
 	
-
+	/**
+	 * synchronized
+	 * adds given String to keywordCount and sets to 0 if new
+	 * or increments value if existing
+	 * @param keyword String to increment or add
+	 * @param adding int count to add to given keyword
+	 */
+	public synchronized static void incrementKeywordCounts(String keyword, int adding) {
+		int value = 0;
+		if (keywordCounts.containsKey(keyword)) {
+			value = keywordCounts.get(keyword);
+			value += adding;
+		}//end if
+		keywordCounts.put(keyword, value);
+	}//end incrementKeywordCounts
+	
+	/**
+	 * returns number of user submitted keywords found so far on pages
+	 * @return int keywordsFound
+	 */
+	public static HashMap<String,Integer> getKeywordCounts() {
+		return keywordCounts;
+	}//end getKeywordsFound
+	
+	
 }//end class

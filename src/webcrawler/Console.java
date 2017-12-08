@@ -67,7 +67,7 @@ public class Console {
 	
 	//gets keywordCount HashMap then iterates through keys printing values
 	public static void printKeywords() {
-		HashMap<String, Integer> hmap = Parser.getKeywordsFound();
+		HashMap<String, Integer> hmap = ThreadHandler.getKeywordCounts();
 		String fullPrint = "";
 		int count = 0;
 		

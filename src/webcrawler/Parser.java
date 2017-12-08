@@ -8,6 +8,8 @@ package webcrawler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,11 +24,8 @@ public class Parser extends Thread {
 	//field
 	private LinkQueue linkQueue;
 	private PageQueue pageQueue;
-	private static int keywordsFound = 0;
 	public boolean threadAlive = true;
 	private int id;
-	static HashMap<String, Integer> keywordCounts = new HashMap<>();
-
 	
 	
 	/**
@@ -72,25 +71,21 @@ public class Parser extends Thread {
 				}//end while*/
 			} catch (InterruptedException e) {e.printStackTrace();}
 			
+			
 			//search the page for any keywords
-			ArrayList<String> keywords = ThreadHandler.getKeywords();
-			for (int j = 0; j < keywords.size(); j++) {
+			HashSet<String> keywords = ThreadHandler.getKeywords();
+			Iterator<String> words = keywords.iterator();
+		    while(words.hasNext()){
 				//Document testString = pageText;
-				org.jsoup.select.Elements keywordcount = pageText.select(keywords.get(j));
-				keywordCounts.put(keywords.get(j), keywordcount.size());
+				org.jsoup.select.Elements keywordcount = pageText.select(words.next());
+				ThreadHandler.incrementKeywordCounts(words.next(), keywordcount.size());
+				
 				//String[] parts = (testString).split(keywords.get(j));
 				//keeps track of keywords found
 				//keywordsFound += (parts.length - 1);
-			}//end for
+			}//end while iterator
 		}//end while
 	}//end run
 	
-	/**
-	 * returns number of user submitted keywords found so far on pages
-	 * @return int keywordsFound
-	 */
-	public static HashMap<String,Integer> getKeywordsFound() {
-		return keywordCounts;
-	}//end getKeywordsFound
 	
 }//end class
