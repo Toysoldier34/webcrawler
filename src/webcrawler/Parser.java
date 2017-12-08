@@ -57,20 +57,17 @@ public class Parser extends Thread {
 				//search the page for any keywords
 				HashSet<String> keywords = Keywords.getKeywords();
 				Iterator<String> words = keywords.iterator();
+				
 			    while(words.hasNext()){
-					//Document testString = pageText;
-					Elements keywordcount = pageText.select(words.next());
-					Keywords.incrementKeywordCounts(words.next(), keywordcount.size());
+			    	Elements keywordcount = pageText.select(words.next());
 					
 					if (keywordcount.size() != 0) {  
 						//if a keyword is found calls to add to number of pages value is found on
 						Keywords.incrementKeywordPagesCount(words.next(), 1);
+						Keywords.incrementKeywordCounts(words.next(), keywordcount.size());
+
 					}
 					
-					
-					//String[] parts = (testString).split(keywords.get(j));
-					//keeps track of keywords found
-					//keywordsFound += (parts.length - 1);
 				}//end while iterator
 				
 			} catch (InterruptedException e) {e.printStackTrace();}

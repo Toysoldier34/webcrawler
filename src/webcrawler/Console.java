@@ -79,7 +79,7 @@ public class Console {
 		   pages = Keywords.keywordPagesCount.get(mentry.getKey());
 		   count += mentry.getValue();
 		   double average = ((double) count / pages);
-		   fullPrint += (mentry.getKey() + ": " + mentry.getValue() + ", " + average + "average times per page");
+		   fullPrint += (mentry.getKey() + ": " + mentry.getValue() + ", " + average + "average times per page \n");
 		}//end while
 		
 		System.out.println("Total keywords found: " + count);
