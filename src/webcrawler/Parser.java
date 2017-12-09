@@ -42,39 +42,34 @@ public class Parser extends Thread {
 	public void run() {
 		currentThread().setName("Parser #" + id);
 		while (threadAlive) {
-			Document pageText = null;
+			Document pageDoc = null;
 			try {
 				//pull page from page queue
-				pageText = pageQueue.getNextPage();
-				System.out.println("pageText:\n" + pageText +"\n");
-				Elements links = pageText.select("a[href]");
-				System.out.println("links:" + links.toString());
+				pageDoc = pageQueue.getNextPage();
+				//field
+				Elements links = pageDoc.select("a[href]");
+				HashSet<String> keywords = Keywords.getKeywords();
+				Iterator<String> words = keywords.iterator();
+				
+				//parse out links and send to queue
 				for (Element link : links) {
 					String url = link.absUrl("href");
 					linkQueue.addLink(url);
-				}
+				}//end for
 				
 				//search the page for any keywords
-				HashSet<String> keywords = Keywords.getKeywords();
-				System.out.println("keywords:" +keywords);
-				Iterator<String> words = keywords.iterator();
-				System.out.println("words:" +words.toString());
 			    while(words.hasNext()){
-			    	Elements keywordcount = pageText.select(words.next());
-			    	System.out.println("keywordcount:" + keywordcount.toString());
-			    	System.out.println("keywordcount.size:" + keywordcount.size());
-					if (keywordcount.size() != 0) {  
-						System.out.println("INSIDE INCREMENT IF");
+			    	String word = words.next();
+			    	String testString = pageDoc.toString();
+					String[] parts = testString.split(word);
+					if (parts.length != 1) {
 						//if a keyword is found calls to add to number of pages value is found on
-						Keywords.incrementKeywordPagesCount(words.next(), 1);
-						Keywords.incrementKeywordCounts(words.next(), keywordcount.size());
-
-					}
-					
+						Keywords.incrementKeywordPagesCount(word, 1);
+						Keywords.incrementKeywordCounts(word, (parts.length - 1));
+					}//end if
 				}//end while iterator
-				
 			} catch (InterruptedException e) {e.printStackTrace();}
-			
+			//end try
 		}//end while
 	}//end run
 	

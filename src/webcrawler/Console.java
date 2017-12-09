@@ -6,6 +6,7 @@
 */
 package webcrawler;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -69,7 +70,8 @@ public class Console {
 		String fullPrint = "";
 		int count = 0;
 		int pages = 0;
-		double average = 0;
+		DecimalFormat df = new DecimalFormat();  //formats 2 decimal places
+		df.setMaximumFractionDigits(2);
 		
 		Set<Entry<String, Integer>> set = hmap.entrySet();
 		Iterator<Entry<String, Integer>> iterator = set.iterator();
@@ -77,9 +79,9 @@ public class Console {
 		   Entry<String, Integer> mentry = iterator.next();
 		   pages = Keywords.keywordPagesCount.get(mentry.getKey());
 		   count += mentry.getValue();
-		   if (pages != 0) { average = ((double) count / pages); };
-		   System.out.println(count + "|" + pages +"|" + average);
-		   fullPrint += (mentry.getKey() + ": " + mentry.getValue() + " total, " + average + " times per page average \n");
+		   double average = 0;
+		   if (pages != 0) { average = ((double) mentry.getValue() / pages); };
+		   fullPrint += (mentry.getKey() + ": " + mentry.getValue() + " total, " + (df.format(average)) + " times per page average \n");
 		}//end while
 		
 		System.out.println("Total keywords found: " + count);
